@@ -1,0 +1,77 @@
+shader switch_color(
+    float index = 0,
+    closure color input0 = holdout(),
+    closure color input1 = holdout(),
+    closure color input2 = holdout(),
+    closure color input3 = holdout(),
+    closure color input4 = holdout(),
+    closure color input5 = holdout(),
+    closure color input6 = holdout(),
+    closure color input7 = holdout(),
+    closure color input8 = holdout(),
+    closure color input9 = holdout(),
+    closure color input10 = holdout(),
+    closure color input11 = holdout(),
+    closure color input12 = holdout(),
+    closure color input13 = holdout(),
+    closure color input14 = holdout(),
+    closure color input15 = holdout(),
+    closure color input16 = holdout(),
+    closure color input17 = holdout(),
+    closure color input18 = holdout(),
+    closure color input19 = holdout(),
+    closure color input20 = holdout(),
+    float threshold = 0.5,
+    output closure color outClosure = holdout())
+{
+
+    int signal = (int)floor(index);
+    if (index - signal >= threshold)
+        signal++;
+    signal = clamp(signal, 0, 20);
+
+    if( signal == 0)
+    	outClosure = input0;
+    else if( signal == 1 )
+    	outClosure = input1;
+    else if( signal == 2 )
+    	outClosure = input2;
+    else if( signal == 3 )
+    	outClosure = input3;
+    else if( signal == 4 )
+    	outClosure = input4;
+    else if( signal == 5 )
+    	outClosure = input5;
+    else if( signal == 6 )
+    	outClosure = input6;
+    else if( signal == 7 )
+    	outClosure = input7;
+    else if( signal == 8 )
+    	outClosure = input8;
+    else if( signal == 9 )
+    	outClosure = input9;
+    else if( signal == 10 )
+    	outClosure = input10;
+    else if( signal == 11 )
+    	outClosure = input11;
+    else if( signal == 12 )
+    	outClosure = input12;
+    else if( signal == 13 )
+    	outClosure = input13;
+    else if( signal == 14 )
+    	outClosure = input14;
+    else if( signal == 15 )
+    	outClosure = input15;
+    else if( signal == 16 )
+    	outClosure = input16;
+    else if( signal == 17 )
+    	outClosure = input17;
+    else if( signal == 18 )
+    	outClosure = input18;
+    else if( signal == 19 )
+    	outClosure = input19;
+    else if( signal == 20 )
+    	outClosure = input20;
+    else
+    	outClosure = holdout();
+}

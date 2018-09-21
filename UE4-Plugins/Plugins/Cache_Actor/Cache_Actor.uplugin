@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Cache Actor",
+	"Description": "A Cache Actor.",
+	"Category": "Rendering",
+	"CreatedBy": "Milipictures",
+	"CreatedByURL": "http:/www.milipictures.com",
+	"DocsURL": "http://wiki.mili.com/Tool_Reference:_Unreal:_Cache_Actor",
+	"MarketplaceURL": "",
+	"SupportURL": "http://wiki.mili.com/%E5%88%86%E7%B1%BB:%E7%B1%B3%E7%B2%92Pipeline%E5%B7%A5%E5%85%B7%E5%8F%82%E8%80%83",
+	"Modules": [
+		{
+			"Name": "Cache_Actor",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit"
+		},
+	],
+	"EnabledByDefault": true,
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"Installed": false
+}

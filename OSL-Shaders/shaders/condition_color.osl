@@ -1,0 +1,40 @@
+shader condition_color(
+    string operationVal = "A==B",
+    float A = 0.0,
+    float B = 0.0,
+    color trueColor = color(1,1,1),
+    color falseColor = color(0,0,0),
+    output color outColor = color(1,1,1)
+    )
+{
+    color result = color(1,1,1);
+    if (operationVal == "A==B")
+    {
+            result = (A == B) ? trueColor : falseColor;
+    }
+    else if (operationVal == "A!=B")
+    {
+            result = (A != B) ? trueColor : falseColor;
+    }
+    else if (operationVal == "A>B")
+    {
+            result = (A > B) ? trueColor : falseColor;
+    }
+    else if (operationVal == "A>=B")
+    {
+            result = (A >= B) ? trueColor : falseColor;
+    }
+    else if (operationVal == "A<B")
+    {
+            result = (A < B) ? trueColor : falseColor;
+    }
+    else if (operationVal == "A<=B")
+    {
+            result = (A <= B) ? trueColor : falseColor;
+    }
+    else
+    {
+            result = color(1,0,0);
+    }
+    outColor = result;
+}

@@ -1,0 +1,174 @@
+float lerp(float a, float b, float t) 
+{
+    return (1 - t) * a + t * b;
+}
+
+color lerp(color a, color b, float t) 
+{
+    color r;
+    r[0] = lerp(a[0], b[0], t);
+    r[1] = lerp(a[1], b[1], t);
+    r[2] = lerp(a[2], b[2], t);
+    return r;
+}
+
+color overlay(color l1,color l2) 
+{
+    color result;
+    for (int i = 0; i < 3; ++i) 
+    {
+        l1[i] < 0.5 ? result[i] = 2.0 * l1[i] * l2[i] : result[i] = (1.0 - 2.0 * (1.0 - l1[i]) * (1.0 - l2[i]));
+    }
+    return result;
+}
+
+vector canonical_in(color input)
+{
+    color temp = input*2 - color(1);
+    vector result = vector(temp[0],temp[1],temp[2]);
+    return result;
+}
+
+vector canonical_out(vector input)
+{
+    vector temp = normalize(input);
+    vector result = (temp+vector(1))*0.5;
+    return result;
+}
+
+float canonical_overlay(float x, float y)
+{
+    if (x < 0.5)
+        return 2.0*x*y;
+    else
+        return 1.0 - 2.0*(1.0 - x)*(1.0 - y);
+}
+
+vector linear_blending(color normal_map1,color normal_map2)
+{
+    vector sum = canonical_in(normal_map1)+canonical_in(normal_map2);
+    vector outVector = canonical_out((sum));
+    return outVector;
+}
+
+vector overlay_blending(color normal_map1,color normal_map2)
+{
+    vector n1 = normal_map1;
+    vector n2 = normal_map2;
+    vector result = vector(canonical_overlay(n1[0],n2[0]),canonical_overlay(n1[1],n2[1]),canonical_overlay(n1[2],n2[2]));
+    vector outVector = normalize(result);
+    return outVector;
+}
+
+vector reoriented_normal_mapping(color normal_map1,color normal_map2)
+{
+    vector n1 = normal_map1*vector(2,2,2)+vector(-1,-1,0);
+    vector n2 = normal_map2*vector(-2,-2,2)+vector(1,1,-1);
+    vector result = n1*dot(n1,n2)/n1[2]-n2;
+    vector outVector = canonical_out(result);
+    return outVector;
+}
+
+color strength(color layer,float weight)
+{
+    color result = color(0.5,0.5,1.0);
+    color defalut = color(0.5,0.5,1.0);
+    color enhance = overlay(layer,layer);
+    if(weight>=0 && weight <1)
+    {
+        result = lerp(defalut,layer,weight);
+    }
+    else if(weight >=1 && weight <2)
+    {
+        float ws = 2 - weight;
+        result = lerp(enhance,layer,ws);
+    }
+    else
+    {
+        result = enhance;      
+    }
+    return result;
+}
+
+vector blend(color l1, color l2, float weight, string mode) 
+{
+    vector result;
+    color defalut_normal = color(0.5,0.5,1);
+    if(mode == "LinearBlending")
+    {
+        color l2_enhance = strength(l2,weight);
+        result = linear_blending(l1,l2_enhance);        
+    }
+	else if(mode == "OverlayBlending")
+    {
+        color l2_enhance = strength(l2,weight);
+        result = overlay_blending(l1,l2_enhance);        
+    }
+	else if(mode == "ReorientedNormalMapping")
+    {
+        color l2_enhance = strength(l2,weight);
+        result = reoriented_normal_mapping(l1,l2_enhance);        
+    }
+    else
+    	result = vector(0.5,0.5,1);
+    return result;
+}
+
+shader layer_normal(
+    color layer0 = color(0.5, 0.5, 1),
+    float layer0_strength = 1,
+
+    color layer1 = color(0.5, 0.5, 1),
+    string layer1_blend = "ReorientedNormalMapping",
+    float layer1_strength = 1,
+    int layer1_enabled = 0,
+
+    color layer2 = color(0.5, 0.5, 1),
+    string layer2_blend = "ReorientedNormalMapping",
+    float layer2_strength = 1,
+    int layer2_enabled = 0,
+
+    color layer3 = color(0.5, 0.5, 1),
+    string layer3_blend = "ReorientedNormalMapping",
+    float layer3_strength = 1,
+    int layer3_enabled = 0,
+
+    color layer4 = color(0.5, 0.5, 1),
+    string layer4_blend = "ReorientedNormalMapping",
+    float layer4_strength = 1,
+    int layer4_enabled = 0,
+
+    color layer5 = color(0.5, 0.5, 1),
+    string layer5_blend = "ReorientedNormalMapping",
+    float layer5_strength = 1,
+    int layer5_enabled = 0,
+
+    color layer6 = color(0.5, 0.5, 1),
+    string layer6_blend = "ReorientedNormalMapping",
+    float layer6_strength = 1,
+    int layer6_enabled = 0,
+
+
+    int normalize_result = 0,
+    output vector outVector = vector(0.5, 0.5, 1))
+{
+	vector result;
+	color layer[6] = {layer1,layer2,layer3,layer4,layer5,layer6};
+	string layer_blend[6] = {layer1_blend,layer2_blend,layer3_blend,layer4_blend,layer5_blend,layer6_blend};
+	float layer_strength[6] = {layer1_strength,layer2_strength,layer3_strength,layer4_strength,layer5_strength,layer6_strength};
+	int layer_enabled[6] = {layer1_enabled,layer2_enabled,layer3_enabled,layer4_enabled,layer5_enabled,layer6_enabled};
+
+    result = strength(layer0,layer0_strength);
+	for(int i=0;i <6;i++)
+	{
+		if(layer_enabled[i])
+		{
+			result = blend(result, layer[i], layer_strength[i], layer_blend[i]);
+		}
+	}
+    
+    if (normalize_result)
+        normalize(result);
+	outVector = result;
+}
+

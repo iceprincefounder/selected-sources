@@ -1,0 +1,164 @@
+float _luminance(float v)
+{
+	return v;
+}
+float _luminance(color p_color)
+{
+   return (0.3 * p_color[0] + 0.3 * p_color[1] + 0.3 * p_color[2]);
+}
+
+color _ramp(
+	float p_positions[4], 
+	color p_colors[4], 
+	float t, 
+	string p_interp)
+{
+	int inext =  4;
+	for(int i = 0;i < 4;i++)
+	{
+		if(t < p_positions[i])
+		{
+			inext = i;
+			break;
+		}
+	}
+
+	if (inext >= 4)
+	{
+		return p_colors[3];
+	}
+
+	if (inext == 0)
+	{
+		return p_colors[0];
+	}
+	
+	int icur = inext - 1;
+	float tcur = p_positions[icur];
+	float tnext = p_positions[inext];
+	color ccur = p_colors[icur];
+	color cnext = p_colors[inext];
+	float sk = (t - tcur) / (tnext - tcur);
+	color result = color(1);
+	if(p_interp == "none")
+		sk = 0.0;
+	else if(p_interp == "linear")
+		sk = sk;
+	else if(p_interp == "exponentialup")
+		sk = sk * sk;
+	else if(p_interp == "exponentialdown")
+		sk = 1.0 - (1.0 - sk) * (1.0 - sk);
+	else if(p_interp == "smooth")
+		sk = 0.5 * ((cos((sk + 1.0) * M_PI)) + 1.0);
+	else if(p_interp == "bump")
+	{
+		float lcur = _luminance(ccur);
+		float lnext = _luminance(cnext);
+		if (lcur < lnext)
+		{
+			sk = sin(sk * M_PI_2);
+		}
+		else
+		{
+			sk = sin((sk - 1.0) * M_PI_2) + 1.0;
+		}
+	}
+	else if(p_interp == "spike")
+	{
+		float lcur = _luminance(ccur);
+		float lnext = _luminance(cnext);
+		if (lcur > lnext)
+		{
+			sk = sin(sk * M_PI_2);
+		}
+		else
+		{
+			sk = sin((sk - 1.0) * M_PI_2) + 1.0;
+		}
+	}
+	else
+		sk = 0;
+	result = mix(ccur, cnext, sk);
+	return result;
+}
+
+shader ramp_p4(
+	string p_type = "u",
+	string p_interp = "linear",
+    float p_positions_1 = 0.0,
+    float p_positions_2 = 0.0,
+    float p_positions_3 = 1.0,
+    float p_positions_4 = 1.0,
+    color p_colors_1 = color(0),
+    color p_colors_2 = color(0),
+    color p_colors_3 = color(1),
+    color p_colors_4 = color(1),
+    output color outColor = color(0, 0, 0))
+{
+	color result;
+	float p_positions[4] = {p_positions_1,p_positions_2,p_positions_3,p_positions_4};
+	color p_colors[4] = {p_colors_1,p_colors_2,p_colors_3,p_colors_4};
+	if(p_type=="u")
+		result = _ramp(p_positions,p_colors,u,p_interp);
+	else if(p_type=="v")
+		result = _ramp(p_positions,p_colors,v,p_interp);
+	else if(p_type=="diagonal")
+	{
+		float t = 0.5 * (u + v);
+		result = _ramp(p_positions, p_colors, t, p_interp);
+	}
+	else if(p_type=="radial")
+	{
+		float x = u - 0.5;
+		float y = v - 0.5;
+		float a = atan2(y, x);
+		float t = float(a * (1/M_2PI));
+		t = - t - 0.25;
+		if (t < 0.0)
+			t += 1.0;
+		t = clamp(t,0,1);
+		result = _ramp(p_positions,p_colors,t,p_interp);		
+	}
+	else if(p_type=="circular")
+    {
+		float x = u - 0.5;
+		float y = v - 0.5;
+		float t = float(sqrt(2.0) * sqrt(x*x + y*y));
+		result = _ramp(p_positions,p_colors,t,p_interp);
+    }
+	else if(p_type=="box")
+	{
+		float t = 2.0 * max(fabs(u-0.5), fabs(v-0.5));
+		result = _ramp(p_positions,p_colors,t,p_interp);
+	}
+	else if(p_type=="uv")
+	{
+		float t0 = 2.0 * fabs(u - 0.5);
+		float t1 = 2.0 * fabs(v - 0.5);
+		color c0, c1;
+		c0 = _ramp(p_positions, p_colors, t0, p_interp);
+		c1 = _ramp(p_positions, p_colors, t1, p_interp);
+		result = c0 * c1;
+	}
+	else if(p_type=="fourcorner")
+	{
+		result = (1.0 - u) * (1.0 - v) * p_colors[0];
+		result = result + (u * (1.0 - v) * p_colors[1]);
+		result = result + ((1.0 - u) * v * p_colors[2]);
+		result = result + (u * v * p_colors[3]);
+	}	
+	else if(p_type=="tartan")
+	{
+		float t0 = 2.0 * fabs(u - 0.5);
+		float t1 = 2.0 * fabs(v - 0.5);
+		color c0, c1;
+		c0 = _ramp(p_positions, p_colors, t0, p_interp);
+		c1 = _ramp(p_positions, p_colors, t1, p_interp);
+		result = 0.5 * (c0 + c1);
+	}
+	else
+		result = color(1);
+	
+	outColor = result;
+
+}

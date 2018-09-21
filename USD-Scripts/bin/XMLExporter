@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ -z ${LCA_SGUSD_PATH} ]]; then
+    SGUSD_PATH="/mnt/utility/linked_tools/scenegraphUSD"
+else
+    SGUSD_PATH=${LCA_SGUSD_PATH}
+fi
+
+MAYAPY_ROOT="/mnt/utility/linked_tools/lca_rez/launchers/pws/linux/mayapy"
+EXCUTE_PATHON_FILE="${SGUSD_PATH}/python/scenegraphUSD/XMLExporter.py"
+
+${MAYAPY_ROOT} ${EXCUTE_PATHON_FILE} "$@"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+ROOT_PATH=$(dirname "$(readlink -e "$BASH_SOURCE")")
+
+export PATH=\
+"/mnt/work/software/develop/dependences/open_exr/bin"\
+:${PATH}
+
+export LD_LIBRARY_PATH=\
+"/mnt/work/software/develop/dependences/open_exr/lib"\
+:${LD_LIBRARY_PATH}
+
+${ROOT_PATH}/OpenEXRResizer $@

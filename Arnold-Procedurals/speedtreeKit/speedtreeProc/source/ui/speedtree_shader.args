@@ -1,0 +1,37 @@
+<args format="1.0">
+<param name="branches" label="branches">
+  <help>
+  default color is Red(1.0, 0.0, 0.0)
+  </help>
+</param>
+<param name="leaves" label="leaves">
+  <help>
+  default color is Green(0.0, 1.0, 0.0)
+  </help>
+</param>
+<param name="frond_and_caps" label="frond and caps">
+  <help>
+  default color is Blue(0.0, 0.0, 1.0)
+  </help>
+</param>
+<param name="facing_leaves" label="facing leaves">
+  <help>
+  default color is Yellow(1.0, 1.0, 0.0)
+  </help>
+</param>
+<param name="rigid_meshes" label="rigid meshes">
+  <help>
+  default color is Magenta(1.0, 0.0, 1.0)
+  </help>
+</param>
+<param name="grass" label="grass"> 
+  <help>
+  default color is Cyan(0.0, 1.0, 1.0)
+  </help>
+</param>
+<param name="billboard" label="billboard">
+  <help>
+  default color is White(1.0, 1.0, 1.0)
+  </help>
+</param>
+</args>

@@ -1,0 +1,5 @@
+<args format="1.0">
+<param name="standard_surface" label="Standard Surface"/>
+<param name="parallax_map" label="Parallax Map" widget="color"/>
+<param name="parallax_value" label="Parallax Value" slider="True" slidermin="-0.5" slidermax="0.5" slidercenter="0.0"/>
+</args>

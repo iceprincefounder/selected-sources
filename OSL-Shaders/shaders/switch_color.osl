@@ -1,0 +1,145 @@
+#include <stdosl.h>
+#include <oslutil.h>
+
+float lerp(float a, float b, float t) 
+{
+    return (1 - t) * a + t * b;
+}
+
+color lerp(color a, color b, float t) 
+{
+    color r;
+    r[0] = lerp(a[0], b[0], t);
+    r[1] = lerp(a[1], b[1], t);
+    r[2] = lerp(a[2], b[2], t);
+    return r;
+}
+
+shader switch_color(
+    float index = 0,
+    color input0 = color(0, 0, 0),
+    color input1 = color(1, 1, 1),
+    color input2 = color(1, 1, 0),
+    color input3 = color(1, 0, 0),
+    color input4 = color(0, 1, 0),
+    color input5 = color(0, 0, 1),
+    color input6 = color(0, 1, 1),
+    color input7 = color(1, 1, 0),
+    color input8 = color(1, 0, 1),
+    color input9 = color(1, 0.5, 0),
+    color input10 = color(1, 0, 0.5),
+    color input11 = color(0.5, 1, 0),
+    color input12 = color(0.5, 0, 1),
+    color input13 = color(0.5, 0.5, 1),
+    color input14 = color(0.5, 1, 0.5),
+    color input15 = color(1, 0.5, 0.5),
+    color input16 = color(0.5, 0.5, 0.5),
+    color input17 = color(0.5, 0, 0.5),
+    color input18 = color(0, 0.5, 0.5),
+    color input19 = color(0.5, 0.5, 0),
+    color input20 = color(0.1, 0.1, 0.1),
+    float threshold = 0.5,
+    int smooth = 0,
+    output color outColor = color(0, 0, 0))
+{
+
+    int signal1 = (int)floor(index);
+    int signal2 = (int)floor(index);
+    float b = index - signal2;
+    if (index - signal1 >= threshold)
+        signal1++;
+    signal1 = clamp(signal1, 0, 20);
+    signal2 = clamp(signal2, 0, 20);
+
+    if(!smooth)
+	    if( signal1 == 0)
+	    	outColor = input0;
+	    else if( signal1 == 1 )
+	    	outColor = input1;
+	    else if( signal1 == 2 )
+	    	outColor = input2;
+	    else if( signal1 == 3 )
+	    	outColor = input3;
+	    else if( signal1 == 4 )
+	    	outColor = input4;
+	    else if( signal1 == 5 )
+	    	outColor = input5;
+	    else if( signal1 == 6 )
+	    	outColor = input6;
+	    else if( signal1 == 7 )
+	    	outColor = input7;
+	    else if( signal1 == 8 )
+	    	outColor = input8;
+	    else if( signal1 == 9 )
+	    	outColor = input9;
+	    else if( signal1 == 10 )
+	    	outColor = input10;
+	    else if( signal1 == 11 )
+	    	outColor = input11;
+	    else if( signal1 == 12 )
+	    	outColor = input12;
+	    else if( signal1 == 13 )
+	    	outColor = input13;
+	    else if( signal1 == 14 )
+	    	outColor = input14;
+	    else if( signal1 == 15 )
+	    	outColor = input15;
+	    else if( signal1 == 16 )
+	    	outColor = input16;
+	    else if( signal1 == 17 )
+	    	outColor = input17;
+	    else if( signal1 == 18 )
+	    	outColor = input18;
+	    else if( signal1 == 19 )
+	    	outColor = input19;
+	    else if( signal1 == 20 )
+	    	outColor = input20;
+	    else
+	    	outColor = color(1);
+	else
+	    if( signal2 == 0)
+	    	outColor = lerp(input0,input1,b);
+	    else if( signal2 == 1 )
+	    	outColor = lerp(input1,input2,b);
+	    else if( signal2 == 2 )
+	    	outColor = lerp(input2,input3,b);
+	    else if( signal2 == 3 )
+	    	outColor = lerp(input3,input4,b);
+	    else if( signal2 == 4 )
+	    	outColor = lerp(input4,input5,b);
+	    else if( signal2 == 5 )
+	    	outColor = lerp(input5,input6,b);
+	    else if( signal2 == 6 )
+	    	outColor = lerp(input6,input7,b);
+	    else if( signal2 == 7 )
+	    	outColor = lerp(input7,input8,b);
+	    else if( signal2 == 8 )
+	    	outColor = lerp(input8,input9,b);
+	    else if( signal2 == 9 )
+	    	outColor = lerp(input9,input10,b);
+	    else if( signal2 == 10 )
+	    	outColor = lerp(input10,input11,b);
+	    else if( signal2 == 11 )
+	    	outColor = lerp(input11,input12,b);
+	    else if( signal2 == 12 )
+	    	outColor = lerp(input12,input13,b);
+	    else if( signal2 == 13 )
+	    	outColor = lerp(input13,input14,b);
+	    else if( signal2 == 14 )
+	    	outColor = lerp(input14,input15,b);
+	    else if( signal2 == 15 )
+	    	outColor = lerp(input15,input16,b);
+	    else if( signal2 == 16 )
+	    	outColor = lerp(input16,input17,b);
+	    else if( signal2 == 17 )
+	    	outColor = lerp(input17,input18,b);
+	    else if( signal2 == 18 )
+	    	outColor = lerp(input18,input19,b);
+	    else if( signal2 == 19 )
+	    	outColor = lerp(input19,input20,b);
+	    else if( signal2 == 20 )
+	    	outColor = lerp(input20,input0,b);
+	    else
+	    	outColor = color(1);
+
+}

@@ -1,0 +1,77 @@
+shader switch_float(
+    float index = 0,
+    float input0 = 0.00,
+    float input1 = 0.00,
+    float input2 = 0.00,
+    float input3 = 0.00,
+    float input4 = 0.00,
+    float input5 = 0.00,
+    float input6 = 0.00,
+    float input7 = 0.00,
+    float input8 = 0.00,
+    float input9 = 0.00,
+    float input10 = 0.00,
+    float input11 = 0.00,
+    float input12 = 0.00,
+    float input13 = 0.00,
+    float input14 = 0.00,
+    float input15 = 0.00,
+    float input16 = 0.00,
+    float input17 = 0.00,
+    float input18 = 0.00,
+    float input19 = 0.00,
+    float input20 = 0.00,
+    float threshold = 0.5,
+    output float outFloat = 0.0)
+{
+
+    int signal = (int)floor(index);
+    if (index - signal >= threshold)
+        signal++;
+    signal = clamp(signal, 0, 20);
+
+    if( signal == 0)
+    	outFloat = input0;
+    else if( signal == 1 )
+    	outFloat = input1;
+    else if( signal == 2 )
+    	outFloat = input2;
+    else if( signal == 3 )
+    	outFloat = input3;
+    else if( signal == 4 )
+    	outFloat = input4;
+    else if( signal == 5 )
+    	outFloat = input5;
+    else if( signal == 6 )
+    	outFloat = input6;
+    else if( signal == 7 )
+    	outFloat = input7;
+    else if( signal == 8 )
+    	outFloat = input8;
+    else if( signal == 9 )
+    	outFloat = input9;
+    else if( signal == 10 )
+    	outFloat = input10;
+    else if( signal == 11 )
+    	outFloat = input11;
+    else if( signal == 12 )
+    	outFloat = input12;
+    else if( signal == 13 )
+    	outFloat = input13;
+    else if( signal == 14 )
+    	outFloat = input14;
+    else if( signal == 15 )
+    	outFloat = input15;
+    else if( signal == 16 )
+    	outFloat = input16;
+    else if( signal == 17 )
+    	outFloat = input17;
+    else if( signal == 18 )
+    	outFloat = input18;
+    else if( signal == 19 )
+    	outFloat = input19;
+    else if( signal == 20 )
+    	outFloat = input20;
+    else
+    	outFloat = 0.0;
+}

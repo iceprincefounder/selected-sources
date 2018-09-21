@@ -1,0 +1,10 @@
+shader layer_closure(
+    closure color layer1 = holdout(),
+    closure color layer2 = holdout(),
+    float maskVal = 0.0,
+    output closure color outClosure = holdout())
+{
+        closure color result = holdout();        
+        result = mix(layer1,layer2,maskVal);
+        outClosure = result;
+}

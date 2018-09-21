@@ -1,0 +1,65 @@
+#!/usr/bin/python
+
+
+import os
+from argparse import ArgumentParser
+from multiprocessing.dummy import Pool as ThreadPool
+
+def argsChaser():
+    parser = ArgumentParser(usage='\t Batch resize EXR file.')
+    parser.add_argument("-f", "--filePath", metavar='DIR/', action='store', default=".", help="folder dir which contents EXR file.")
+    parser.add_argument("-o", "--outputPath", metavar='DIR/', action='store', default=".", help="folder dir which output EXR file.")
+    parser.add_argument("-r", "--resize", metavar='2|4|8', action='store', default=2, help="factor of scale.")
+    parser.add_argument("-t", "--threads", metavar='4|8|12', action='store', default=1, help="Number of threads we used.")    
+    parser.add_argument("-a", "--all", type=bool, nargs='?',action='store',
+                                        const=False, default=True,metavar="Bool",
+                                        help="convert all!")
+
+    args=None
+    temp_args,unknow = parser.parse_known_args()
+    args=vars(temp_args)
+    return args
+
+
+args = argsChaser()
+root = os.path.dirname(os.path.realpath(__file__))
+
+def printf(text):
+    print text
+
+def excuted(command):
+    os.system(command)
+
+def main():
+    tasks = [] # the list contents all EXR files which need be resized
+    filePath = args["filePath"]
+    outputPath = args["outputPath"]
+    factor = args["resize"]
+    threads = args["threads"]
+    for file in os.listdir(filePath):
+        if not file.endswith(".exr"):
+            continue
+        excute=os.path.join(root, "bin", "ResizerBin")
+        infile = os.path.join(filePath,file)
+        # if --outputPath is exsit, we would use that value, or a proxy with .proxy 
+        # subffix would be used in current filePath.
+        if outputPath is ".":
+            if not os.path.isdir(os.path.join(filePath,"proxy")):
+                os.mkdir(os.path.join(filePath,"proxy"), 0777)
+            outfile = os.path.join(filePath,"proxy",file[:-4] + ".proxy"+ ".exr")
+        else:
+            outfile = os.path.join(outputPath,file)
+        command = "%s %s %s -s %s"%(excute, infile, outfile, factor)
+        tasks.append(command)
+
+    # make the Pool of workers
+    pool = ThreadPool(int(threads)) 
+
+    results = pool.map(excuted, tasks)
+
+if __name__ == "__main__":
+    main()
+
+#############################
+# Example
+# >./OpenEXRResizer -f /path/to/folder/beauty -t 8

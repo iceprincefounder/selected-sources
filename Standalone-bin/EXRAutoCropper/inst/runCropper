@@ -1,0 +1,31 @@
+#!/usr/bin/python
+
+
+import os
+from argparse import ArgumentParser
+
+def argsChaser():
+    parser = ArgumentParser(usage='\t Batch convert EXR file to new and autocrop data window.')
+    parser.add_argument("-f", "--filePath", metavar=' *./ ', action='store', default="")
+    parser.add_argument("-a", "--all", metavar='', action='store', default="", help="convert all!")
+    args=None
+    temp_args,unknow = parser.parse_known_args()
+    args=vars(temp_args)
+    return args
+
+args = argsChaser()
+root = os.path.dirname(os.path.realpath(__file__))
+
+def main():
+    file_path = args["filePath"]
+    for file in os.listdir(file_path):
+        if not file.endswith(".exr"):
+            continue
+        excute=os.path.join(root, "bin", "CropperBin")
+        infile = os.path.join(file_path,file)
+        outfile = os.path.join(file_path,file[:-4] + ".test"+ ".exr")
+        command = "%s %s %s"%(excute, infile, outfile)
+        print "------------------"
+        os.system(command)
+if __name__ == "__main__":
+    main()

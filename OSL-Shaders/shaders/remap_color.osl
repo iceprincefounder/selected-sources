@@ -1,0 +1,145 @@
+float lerp(float a, float b, float t) 
+{
+    return (1 - t) * a + t * b;
+}
+
+color lerp(color a, color b, float t) 
+{
+    color r;
+    r[0] = lerp(a[0], b[0], t);
+    r[1] = lerp(a[1], b[1], t);
+    r[2] = lerp(a[2], b[2], t);
+    return r;
+}
+
+float _luminance(color c) 
+{
+    return c[0] * 0.212671 + c[1] * 0.715160 + c[2] * 0.072169;
+}
+
+float _luminance(float f) { return f; }
+
+float _contrast(float input, float contrastVal, float contrastPivot) 
+{
+    if (contrastVal == 1.0)
+        return input;
+    return (input - contrastPivot) * contrastVal + contrastPivot;
+}
+
+color _contrast(color input, float contrastVal, float contrastPivot) 
+{
+    if (contrastVal == 1.0)
+        return input;
+
+    return color((input[0]- contrastPivot) * contrastVal + contrastPivot,
+                 (input[1] - contrastPivot) * contrastVal + contrastPivot,
+                 (input[2] - contrastPivot) * contrastVal + contrastPivot);
+}
+
+color _hsv2rgb(color hsv) 
+{
+    float h = hsv[0];
+    float s = hsv[1];
+    float v = hsv[2];
+
+    if (s < 0.0001)
+    {
+        return color(v, v, v);
+    }
+    else 
+    {
+        h = 6.0 * (h - floor(h));
+        int hi = (int)h;
+        float f = h - hi;
+        float p = v * (1.0 - s);
+        float q = v * (1.0 - s * f);
+        float t = v * (1.0 - s * (1.0 - f));
+        if(hi == 0)
+            return color(v, t, p);
+        else if (hi == 1)
+            return color(q, v, p);
+        else if (hi == 2)
+            return color(p, v, t);
+        else if (hi == 3)
+            return color(p, q, v);
+        else if (hi == 4)
+            return color(t, p, v);
+        else
+            return color(v, p, q);
+    }
+}
+
+color _rgb2hsv(color rgb) 
+{
+    float r = rgb[0], g = rgb[1], b = rgb[2];
+    float mincomp = min(r, min(g, b));
+    float maxcomp = max(r, max(g, b));
+    float delta = maxcomp - mincomp; // chroma
+    float h, s, v;
+    v = maxcomp;
+    if (maxcomp > 0)
+        s = delta / maxcomp;
+    else
+        s = 0;
+    if (s <= 0)
+        h = 0;
+    else {
+        if (r >= maxcomp)
+            h = (g - b) / delta;
+        else if (g >= maxcomp)
+            h = 2 + (b - r) / delta;
+        else
+            h = 4 + (r - g) / delta;
+        h /= 6;
+        if (h < 0)
+            h += 1;
+    }
+    return color(h, s, v);
+}
+
+shader remap_color(
+    color input = color(0, 0, 0),
+    float gammaVal = 1.0,
+    float saturationVal = 1.0,
+    float hueOffsetVal = 0.0,
+    float contrastVal = 1.0,
+    float contrastPivot = 0.18,
+    float gainVal = 1.0,
+    float exposureVal = 0.0,
+    float maskVal = 1.0,
+    output color outColor = color(0, 0, 0))
+{
+	color result = input;
+	if(maskVal > 0.0)
+	{
+        // hue
+        if (hueOffsetVal != 0.0) 
+        {
+            color hsv = _rgb2hsv(result);
+            hsv[0] += hueOffsetVal;
+            result = _hsv2rgb(hsv);
+        }		
+        // saturation
+        if (saturationVal != 1.0) {
+            float l = _luminance(result);
+            result = lerp(color(l), result, saturationVal);
+        }
+        // contrast
+        if (contrastVal != 1.0) 
+        {
+            result = _contrast(result, contrastVal, contrastPivot);
+        }
+        // gain and exposure
+        result = result * pow(2.0, exposureVal) * gainVal;
+
+        // gamma
+        if (gammaVal != 1.0)
+         result = pow(result, 1/gammaVal);
+
+        // mask
+        if (maskVal < 1.0) {
+            result = lerp(input, result, maskVal);
+        }        
+	}
+	outColor = result;
+}

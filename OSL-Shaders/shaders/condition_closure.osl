@@ -1,0 +1,58 @@
+shader condition_closure(
+    string operationVal = "A==B",
+    float A = 0.0,
+    float B = 0.0,
+    closure color trueClosure = holdout(),
+    closure color falseClosure = holdout(),
+    output closure color outClosure = holdout()
+    )
+{
+    closure color result;
+    if (operationVal == "A==B")
+    {
+            if (A == B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else if (operationVal == "A!=B")
+    {
+            if (A != B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else if (operationVal == "A>B")
+    {
+            if (A > B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else if (operationVal == "A>=B")
+    {
+            if (A >= B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else if (operationVal == "A<B")
+    {
+            if (A < B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else if (operationVal == "A<=B")
+    {
+            if (A <= B)
+                result = trueClosure;
+            else
+                result = falseClosure;
+    }
+    else
+    {
+            result = holdout();
+    }
+    outClosure = result;
+}

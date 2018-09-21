@@ -1,0 +1,7 @@
+<args format="1.0">
+<param name="color" label="Texture Repetition" widget="color"/>
+<param name="Repeat UV" label="Repeat UV"/>
+<param name="Rotate UV" label="Rotate UV"/>
+<param name="Offset UV" label="Offset UV"/>
+<param name="Noise UV" label="Noise UV"/>
+</args>

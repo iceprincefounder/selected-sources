@@ -1,0 +1,102 @@
+float lerp(float a, float b, float t) 
+{
+    return (1 - t) * a + t * b;
+}
+
+color lerp(color a, color b, float t) 
+{
+    color r;
+    r[0] = lerp(a[0], b[0], t);
+    r[1] = lerp(a[1], b[1], t);
+    r[2] = lerp(a[2], b[2], t);
+    return r;
+}
+
+float _contrast(float input, float contrastVal, float contrastPivot) 
+{
+    if (contrastVal == 1.0)
+        return input;
+    return (input - contrastPivot) * contrastVal + contrastPivot;
+}
+
+float _bias(float f, float b) 
+{
+    if (b > 0.0)
+        return pow(f, log(b) / log(0.5));
+    else
+        return 0.0;
+}
+
+float _biasandgain(float f, float b, float g) 
+{
+    if (f < 0)
+        return f;
+
+    if (b != 0.5)
+        f = _bias(f, b);
+
+    if (g != 0.5) {
+        if (f < 0.5)
+            f = 0.5 * _bias(2.0 * f, 1.0 - g);
+        else
+            f = 1.0 - _bias(2.0 - 2.0 * f, 1.0 - g) * 0.5;
+    }
+    return f;
+}
+
+float remap_float(float input, float inputMin, float inputMax, float contrastVal, 
+				float contrastPivot, float biasVal, float gainVal,
+			    float outputMin, float outputMax, int clampEnable, 
+			    int threshold, float clampMin, float clampMax)
+{
+	float f = (input - inputMin) / (inputMax - inputMin);
+	f = _contrast(f, contrastVal, contrastPivot);
+	f = _biasandgain(f, biasVal, gainVal);
+	f = lerp(outputMin, outputMax, f);
+	if (clampEnable) {
+	    f = min(clampMax, f);
+	    f = max(clampMin, f);
+	    if (threshold)
+	        f = (f - clampMin) / (clampMax - clampMin);
+	}
+	return f;
+}
+
+shader remap_float(
+    float input = 0.0,
+    float inputMin = 0.0,                                       
+	float inputMax = 1.0,                                       
+	float contrast = 1.0,                                       
+	float contrastPivot = 0.5,                                  
+	float bias_value = 0.5,                                           
+	float gain_value = 0.5,                                           
+	float outputMin = 0.0,                                      
+	float outputMax = 1.0,
+    int clampEnable = 1,  
+    int threshold = 0,
+    float clampMin = 0.0,
+    float clampMax = 1.0,       
+    float mask = 1,
+    output float outFloat = 0.0)
+{
+    float result = input;
+    if (mask > 0.0) 
+    {
+    	float rx;
+		rx = remap_float(input,
+			inputMin,
+			inputMax,
+			contrast,
+			contrastPivot,
+			bias_value,
+			gain_value,
+			outputMin,
+			outputMax,
+			clampEnable,
+			threshold,
+			clampMin,
+			clampMax);
+        result = lerp(input, rx, mask);
+    }
+    outFloat = result;
+}

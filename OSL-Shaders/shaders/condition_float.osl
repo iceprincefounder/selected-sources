@@ -1,0 +1,40 @@
+shader condition_float(
+    string operationVal = "A==B",
+    float A = 0.0,
+    float B = 0.0,
+    float trueFloat = 1,
+    float falseFloat = 0,
+    output float outFloat = 1
+    )
+{
+    float result = 1;
+    if (operationVal == "A==B")
+    {
+            result = (A == B) ? trueFloat : falseFloat;
+    }
+    else if (operationVal == "A!=B")
+    {
+            result = (A != B) ? trueFloat : falseFloat;
+    }
+    else if (operationVal == "A>B")
+    {
+            result = (A > B) ? trueFloat : falseFloat;
+    }
+    else if (operationVal == "A>=B")
+    {
+            result = (A >= B) ? trueFloat : falseFloat;
+    }
+    else if (operationVal == "A<B")
+    {
+            result = (A < B) ? trueFloat : falseFloat;
+    }
+    else if (operationVal == "A<=B")
+    {
+            result = (A <= B) ? trueFloat : falseFloat;
+    }
+    else
+    {
+            result = 0;
+    }
+    outFloat = result;
+}

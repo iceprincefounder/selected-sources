@@ -1,0 +1,16 @@
+<args format="1.0">
+ <param name="texture" label="Texture Path" widget="fileInput"/>
+ <param name="color_space" label="Color Space" widget="mapper">
+  <hintdict name="options">
+    <string value="auto" name="auto"/>
+    <string value="" name="Raw"/>
+    <string value="sRGB" name="sRGB"/>
+    <string value="Rec709" name="Rec709"/>
+    <string value="linear" name="Linear"/>
+  </hintdict>
+  <help>
+   Color space of the incoming texels.  Usually this is auto.
+  </help>
+ </param>
+ <param name="uvSetName" label="UV SetName"/>
+</args>

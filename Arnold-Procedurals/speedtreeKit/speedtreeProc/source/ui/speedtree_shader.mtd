@@ -1,0 +1,6 @@
+# Arnold MetaData File 
+[node speedtree_shader]
+	maya.name STRING "speedtree_shader"
+	maya.id INT 0x0012e2c0
+	maya.classification STRING "shader/surface"
+	desc STRING "SpeedTreeKit shader"

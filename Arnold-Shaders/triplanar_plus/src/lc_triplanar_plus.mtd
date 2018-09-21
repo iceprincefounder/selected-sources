@@ -1,0 +1,12 @@
+# Arnold MetaData File 
+[node lc_triplanar]
+	maya.name STRING "lc_triplanar"
+	maya.id INT 0x71000002
+	maya.classification STRING "utility/shader"
+	desc STRING "LCA Utility Shader Library" 
+
+[node lc_triplanar3d]
+	maya.name STRING "lc_triplanar3d"
+	maya.id INT 0x71000003
+	maya.classification STRING "utility/shader"
+	desc STRING "LCA Utility Shader Library" 

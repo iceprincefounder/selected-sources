@@ -1,0 +1,28 @@
+<args format="1.0">
+<param name="input_x" label="Input X Axis" widget="color"/>
+<param name="input_y" label="Input Y Axis" widget="color"/>
+<param name="input_z" label="Input Z Axis" widget="color"/>
+<param name="space" label="Space" widget="popup">
+	<hintlist name="options">
+		<string value="World"/>
+		<string value="Object"/>
+		<string value="Pref"/>
+	</hintlist>
+</param>
+<param name="normal" label="Normal" widget="popup">
+	<hintlist name="options">
+		<string value="Default"/>
+		<string value="PerfSmooth"/>
+		<string value="SmoothNoBump"/>
+	</hintlist>
+</param>
+<param name="global_zoom" label="Global Zoom" slider="True" slidermin="0.0" slidermax="100" slidercenter="1.0"/>
+<param name="blend_softness" label="Blend Softness" slider="True"/>
+<page name="Transforms" open="True">
+	<param name="frequency" label="Frequency"/>
+	<param name="offset" label="Offset"/>
+	<param name="scale" label="Scale"/>
+	<param name="rotate" label="Rotate"/>
+	<param name="rotjitter" label="Rot Jitter"/>
+</page>
+</args>

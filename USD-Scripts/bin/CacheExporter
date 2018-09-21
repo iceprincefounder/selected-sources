@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+export USD_INSTALL_ROOT="/mnt/work/software/develop/usd/USD-v082"
+export USD_DEPENDE_ROOT="/mnt/work/software/develop/dependences"
+
+export PATH="${USD_INSTALL_ROOT}/bin":${PATH}
+
+export PYTHONPATH=\
+"${USD_INSTALL_ROOT}/lib/python/":\
+"${LC_UTILITY}/linked_tools/ple_tools":\
+"${USD_DEPENDE_ROOT}/python27/root/usr/lib64/python2.7/site-packages":\
+${PYTHONPATH}
+
+export LD_LIBRARY_PATH=\
+"${USD_DEPENDE_ROOT}/python27/root/usr/lib":\
+"${USD_DEPENDE_ROOT}/python27/root/usr/lib64":\
+"${USD_DEPENDE_ROOT}/python27/root/usr/lib64/python2.7/site-packages/PySide":\
+${LD_LIBRARY_PATH}
+
+python "/mnt/utility/linked_tools/ple_tools/lca_usd/interpreters/scenegraphxml_cache_to_usd.py" "$@"
