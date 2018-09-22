@@ -9,6 +9,12 @@
      
      Lower size and faster IO speed in Nuke.
 
+ 3. **How to use**
+
+    ``` 
+    cd /path/to/EXRAutoCropper
+    ./runCropper -f <file_path> -t <threads_number> -a <autoCrop_all>
+    ```
 
 ### OpenEXRResizer
 
@@ -20,3 +26,9 @@
  2. **Pipeline Design**
     
     In composting pipeline, those are usually so many 2k or 4k OpenEXR files IO at same time in Nuke, we could convert those files into lower size as proxy and change it back on final render to extremely improve the efficiency of composting.
+
+ 3. **How to use**
+
+    ``` 
+    cd /path/to/OpenEXRResizer
+    ./runResizer -f <file_path> -t <threads_number> -o <output_path>
