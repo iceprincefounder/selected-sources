@@ -104,13 +104,12 @@ The [ArnoldLightGafferPackage](https://github.com/iceprincefounder/selected-sour
      More efficient and easier to create and control.
  3. **How to use**
 
-     Step 1: *Create "parallax_map" shader;* 
- 
-     Step 2. *Connect arnold "standard_surface"shader to parameter "Standard Surface";* 
- 
-     Step 3. *Connect depth map or bump map to parameter "Parallax Map";* 
- 
-     Step 4. *Control the height with parameter "Parallax Value";*
+     ```
+     Step 1: Create "parallax_map" shader;
+     Step 2. Connect arnold "standard_surface"shader to parameter "Standard Surface";
+     Step 3. Connect depth map or bump map to parameter "Parallax Map";
+     Step 4. Control the height with parameter "Parallax Value";
+     ```
 
 
 ### TextureRepetition Shader Kit
