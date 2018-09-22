@@ -29,6 +29,7 @@
 
     The speedtreeKit toolset would make your assets of plant very small and don\`t need the animation sequences because every animation frame would be calculated by the renderer. That would improve both your IO speed and also render speed. 
 
+
 ## Application
 ----------------------------------------------
 ### EXRAutoCropper
@@ -40,6 +41,7 @@
      
      Lower size and faster IO speed in Nuke.
 
+
 ### OpenEXRResizer
 
 ![resizer](https://user-images.githubusercontent.com/16664056/44787800-b7c9cf80-abca-11e8-90ca-7c8a215cfdb7.png)
@@ -50,6 +52,7 @@
  2. **Pipeline Design**
     
     In composting pipeline, those are usually so many 2k or 4k OpenEXR files IO at same time in Nuke, we could convert those files into lower size as proxy and change it back on final render to extremely improve the efficiency of composting.
+
 
 ## Katana-SuperTools
 ----------------------------------------------
@@ -94,6 +97,7 @@ The [ArnoldLightGafferPackage](https://github.com/iceprincefounder/selected-sour
  
      Step 4. *Control the height with parameter "Parallax Value";*
 
+
 ### TextureRepetition Shader Kit
 
 ![tr](https://user-images.githubusercontent.com/16664056/43777159-93359160-9a84-11e8-896b-e02b00132921.png)
@@ -111,6 +115,7 @@ The [TriplanarPlus](https://github.com/iceprincefounder/selected-sources/tree/ma
 
 Please feel free to check the source code on my Github.
 
+
 ## OSL-Shaders
 ----------------------------------------------
  1. **Overview and Purpose**
@@ -121,6 +126,7 @@ Please feel free to check the source code on my Github.
     
     Those are a lot of osl shaders I don\`t list here which deal with different project assets translation. 
 
+
 ## Katana-Plugins
 ----------------------------------------------
 ### LightViewerModifier
@@ -128,6 +134,7 @@ Please feel free to check the source code on my Github.
 ![lvm](https://user-images.githubusercontent.com/16664056/43777594-d9eb4586-9a85-11e8-9537-0308c57742f0.png)
 
 The [LightViewerModifier](https://github.com/iceprincefounder/selected-sources/tree/master/Katana-Plugins/LightViewerModifier) is a simple plugin to customize the light shapes in Katana viewer for Arnold light.
+
 
 ## USD-Scripts
 
@@ -139,6 +146,7 @@ The [LightViewerModifier](https://github.com/iceprincefounder/selected-sources/t
  2. **Why I wrote**
     
     The purpose of writing those scripts is to learn, test and play with USD project. Just for fun and curious.
+
 
 ## UE4-Plugins
 ----------------------------------------------
